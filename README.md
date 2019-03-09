@@ -645,6 +645,82 @@ string title = newTitle ?? throw new ArgumentNullException(nameof(newTitle));
 string authorName = books?[0]?.author?.name;
 ```
 
+## Ranges
 
+> Available in C# 8.0
 
+Starting in C# 8.0, we can use the `[start...end]` syntax on collections and arrays in `foreach` loops:
 
+```cs
+using System;
+
+class Program
+{
+    static void Main(string[] args)
+    {
+        var names = new string[]
+        {
+            "Mary",
+            "Maria",
+            "Mario",
+            "Denise",
+            "Henry"
+        };
+        
+        foreach (var name in names[1..4])
+        {
+            Console.WriteLine(name);
+        }
+    }
+}
+```
+
+Ranges can be shortcut by leaving either the `start` or `end` empty. For instance:
+
+```cs
+foreach (var name in names[1..])
+```
+
+Output:
+
+```
+Maria
+Mario
+Denise
+Henry
+```
+
+When we leave off the `start` value instead:
+
+```cs
+foreach (var name in names[..3])
+```
+
+Output:
+
+```
+Mary
+Maria
+Mario
+```
+
+We can also use the `^` operator as a prefix to the `end` value to tell C# to treat that value as _n values from the end_. The `^1` in the example below indicates that we should stop "one before the last item":
+
+```cs
+foreach (var name in names[1..^1])
+```
+
+Output:
+
+```
+Maria
+Mario
+Denise
+```
+
+We can also create a `Range` object and use it instead of literal integer values:
+
+```cs
+Range range = 1..4;
+foreach (var name in names[range])
+```
