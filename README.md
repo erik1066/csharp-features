@@ -246,7 +246,7 @@ class Program
         Console.WriteLine(greeting); // "Hello, Sonya"
     }
 
-    static void Greeting(string name, string greeting)
+    static string Greeting(string name, string greeting)
     {
         return greeting + ", " + name;
     }
