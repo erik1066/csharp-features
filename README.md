@@ -724,3 +724,62 @@ We can also create a `Range` object and use it instead of literal integer values
 Range range = 1..4;
 foreach (var name in names[range])
 ```
+
+## Verbatim Strings
+
+We can create strings that don't need to be escaped by using the `@` operator:
+
+```cs
+string names = @"
+                 John
+                 Harry
+                 Mary";
+```
+
+Output:
+
+```
+
+                 John
+                 Harry
+                 Mary
+```
+
+## Nested using statements
+
+If you've been using C# and objects that implement `IDisposable` for long enough, you're familar with the following `using` syntax for disposing of managed resources:
+
+```cs
+using (var reader = new System.IO.StreamReader(csv.OpenReadStream()))
+{
+    ...
+}
+```
+
+But we often need to nest `using` statements, like such:
+
+```cs
+using (var reader = new System.IO.StreamReader(csv.OpenReadStream()))
+{
+    using (var csvReader = new ChoCSVReader(reader).WithFirstLineHeader())
+    {
+        foreach (var row in csvReader) 
+        {
+            rows.Add(row.DumpAsJson());
+        }
+    }
+}
+```
+
+Thankfully there's a more concise way to represent nested `using` statements:
+
+```cs
+using (var reader = new System.IO.StreamReader(csv.OpenReadStream()))
+using (var csvReader = new ChoCSVReader(reader).WithFirstLineHeader())
+{
+    foreach (var row in csvReader) 
+    {
+        rows.Add(row.DumpAsJson());
+    }
+}
+```
