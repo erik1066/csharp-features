@@ -215,6 +215,83 @@ C# allows the use of underscores to separate digits in numeric literals. For exa
 int amount = 1_000_000;
 ```
 
+## Declaring `out` variables on-the-fly and `out` discards
+
+> Available in C# 7.0.
+
+`out` variables can now be declared on-the-fly:
+
+```cs
+// The C# 7 way of handling out variables
+bool success = int.TryParse("ABCD", out int result);
+Console.WriteLine(result);
+```
+
+In older versions of C#, we'd need to instead declare `result` earlier, like this:
+
+```cs
+// The old way of handling out variables
+int result;
+bool success = int.TryParse("ABCD", out result);
+Console.WriteLine(result);
+```
+
+In addition to delcaring `out` variables on-the-fly, you can now _discard_ `out` variables you don't want using the `_` symbol:
+
+```cs
+Transform(out _, out _, out int data, out _);
+```
+
+## Patterns
+
+> Available in C# 7.0. [C# pattern matching](https://docs.microsoft.com/en-us/dotnet/csharp/pattern-matching)
+
+You can also declare variables on-the-fly with the `is` operator:
+
+```cs
+public void Transform(object data)
+{
+    if (data is DateTime dt)
+    {
+        Console.WriteLine("Day of month: " + dt.Day);
+    }
+    else if (data is string s)
+    {
+        Console.WriteLine($"String '{s}' has a length of {s.Length}");
+    }
+    else
+    {
+        Console.WriteLine("Unsupported data detected");
+    }
+}
+```
+
+Declaring variables with an `is` operator makes those variables "pattern variables." We can also do this with `switch` statements as shown below.
+
+```cs
+public void Transform(object data)
+{
+    switch (data)
+    {
+        case int i:
+            Console.WriteLine("Int detected: " + i);
+            break;
+        case DateTime dt:
+            Console.WriteLine("DateTime detected: " + dt.ToShortDateString());
+            break;
+        case string s when s.Length >= 5:
+            Console.WriteLine("String detected: " + s);
+            break;
+        case string s when s.Length < 5:
+            Console.WriteLine("Short string detected: " + s);
+            break;
+        case bool b when b == false:
+            Console.WriteLine("FALSE");
+            break;
+    }
+}
+```
+
 ## Dynamic binding
 
 > Available in C# 4.0. [C# dynamic binding](https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/types/using-type-dynamic)
