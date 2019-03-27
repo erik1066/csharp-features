@@ -718,9 +718,13 @@ string title = newTitle ?? throw new ArgumentNullException(nameof(newTitle));
 
 > Available in C# 6.0. [C# ?. and .[] operator](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/operators/null-conditional-operators)
 
+The `?` operator assigns `null` if the reference it's checking is null. This eliminates the need for boilerplate null-checking logic. For example:
+
 ```cs
 string authorName = books?[0]?.author?.name;
 ```
+
+In older versions of C#, to implement the same logic, we'd have had to check three entities for `null`: The `books` array, the first item in the `books` array, and the `author` property of the book.
 
 ## Ranges
 
