@@ -4,10 +4,9 @@
 
 C# projects can be compiled and run on macOS, Linux, or Windows when targeting [.NET Core](https://github.com/dotnet/core). The .NET Core runtime and SDK are open source on GitHub and available under the MIT license.
 
-See [Pop!_OS setup guide](https://github.com/erik1066/pop-os-setup) for instructions on installing .NET Core's runtime and SDK on Ubuntu 18.04.
+See [Pop!\_OS setup guide](https://github.com/erik1066/pop-os-setup) for instructions on installing .NET Core's runtime and SDK on Ubuntu 18.04.
 
 Example "Hello, World!" application:
-
 
 ```cs
 using System;
@@ -23,16 +22,16 @@ class Program
 
 C# version release dates:
 
-| Version       | Date           | ECMA            |
-| ------------- |:-------------:|:-------------:|
-| C# 1.0      | 2002 | [Yes](http://www.ecma-international.org/publications/files/ECMA-ST-WITHDRAWN/ECMA-334,%202nd%20edition,%20December%202002.pdf) |
-| C# 2.0      | 2005 | [Yes](http://www.ecma-international.org/publications/files/ECMA-ST/Ecma-334.pdf) |
-| C# 3.0      | 2007 | No  |
-| C# 4.0      | 2010 | No  |
-| C# 5.0      | 2012 | [Yes](https://www.ecma-international.org/publications/files/ECMA-ST/ECMA-334.pdf) |
-| C# 6.0      | 2015 | No  |
-| C# 7.0      | 2017 | No  |
-| C# 8.0      | 2019 | No  |
+| Version | Date |                                                              ECMA                                                              |
+| ------- | :--: | :----------------------------------------------------------------------------------------------------------------------------: |
+| C# 1.0  | 2002 | [Yes](http://www.ecma-international.org/publications/files/ECMA-ST-WITHDRAWN/ECMA-334,%202nd%20edition,%20December%202002.pdf) |
+| C# 2.0  | 2005 |                        [Yes](http://www.ecma-international.org/publications/files/ECMA-ST/Ecma-334.pdf)                        |
+| C# 3.0  | 2007 |                                                               No                                                               |
+| C# 4.0  | 2010 |                                                               No                                                               |
+| C# 5.0  | 2012 |                       [Yes](https://www.ecma-international.org/publications/files/ECMA-ST/ECMA-334.pdf)                        |
+| C# 6.0  | 2015 |                                                               No                                                               |
+| C# 7.0  | 2017 |                                                               No                                                               |
+| C# 8.0  | 2019 |                                                               No                                                               |
 
 ## String interpolation
 
@@ -115,7 +114,7 @@ It's not recommended to use `var` when the type can't be inferred by reading the
 
 ```cs
 // allowed, but a bad practice - it's not clear what 'handler' is
-var handler = builder.CreateNew("http://localhost:9090"); 
+var handler = builder.CreateNew("http://localhost:9090");
 ```
 
 ## Passing functions using delegates
@@ -123,6 +122,7 @@ var handler = builder.CreateNew("http://localhost:9090");
 > Available in C# 1.0. [C# delegates](https://docs.microsoft.com/en-us/dotnet/csharp/delegates-overview)
 
 ### Basic delegates
+
 Like GoLang and JavaScript, you can pass functions as arguments to other functions. This is done using C# delegates.
 
 ```cs
@@ -477,7 +477,7 @@ You can use Lambdas in the loop expression, too:
 ```cs
 foreach (var name in names.Where(n => n.StartsWith("J")))
 {
-    Console.WriteLine(name);    
+    Console.WriteLine(name);
 }
 ```
 
@@ -540,12 +540,12 @@ class TimePeriod
    public double Hours
    {
        get { return _seconds / 3600; }
-       set { 
+       set {
           if (value < 0 || value > 24)
              throw new ArgumentOutOfRangeException(
                    $"{nameof(value)} must be between 0 and 24.");
 
-          _seconds = value * 3600; 
+          _seconds = value * 3600;
        }
    }
 }
@@ -571,7 +571,7 @@ class TimePeriod
              throw new ArgumentOutOfRangeException(
                    $"{nameof(value)} must be between 0 and 24.");
 
-          _seconds = value * 3600; 
+          _seconds = value * 3600;
    }
 }
 ```
@@ -656,7 +656,7 @@ class Program
         string GenerateGreeting(string name)
         {
             Random rnd = new Random();
-            int month = rnd.Next(1, 3); 
+            int month = rnd.Next(1, 3);
 
             string greeting = "";
 
@@ -747,7 +747,7 @@ class Program
             "Denise",
             "Henry"
         };
-        
+
         foreach (var name in names[1..4])
         {
             Console.WriteLine(name);
@@ -844,7 +844,7 @@ using (var reader = new System.IO.StreamReader(csv.OpenReadStream()))
 {
     using (var csvReader = new ChoCSVReader(reader).WithFirstLineHeader())
     {
-        foreach (var row in csvReader) 
+        foreach (var row in csvReader)
         {
             rows.Add(row.DumpAsJson());
         }
@@ -858,9 +858,28 @@ Thankfully there's a more concise way to represent nested `using` statements:
 using (var reader = new System.IO.StreamReader(csv.OpenReadStream()))
 using (var csvReader = new ChoCSVReader(reader).WithFirstLineHeader())
 {
-    foreach (var row in csvReader) 
+    foreach (var row in csvReader)
     {
         rows.Add(row.DumpAsJson());
     }
 }
 ```
+
+## Default interface implemention
+
+> Available in C# 8.0
+
+We can now include a default implementation for interfaces, much like Java:
+
+```cs
+public interface IEntity
+{
+    int Id { get; set; }
+    void GenerateId()
+    {
+        Id = System.Guid.NewGuid();
+    }
+}
+```
+
+Doing so enables developers to expand an interface's surface area without breaking compatibility with existing implementations of that interface.
